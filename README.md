@@ -3,17 +3,17 @@ Symfony Bundle in order to keep using PHP template
 
 *This was not tested properly, use with caution*
 
-#Instalation
+# Instalation
 
 ```
 composer require nyrodev/php-template-bundle dev-master
 ```
 
-#Usage
+# Usage
 
 As you did before on Symfony 4, simply use your php template when rendering something.
 Usage examples :
-``̀ 
+```
 $this->render('Admin/template.html.php', /* ... */);
 $this->render('@MyBundle/Admin/template.html.php', /* ... */);
 ```
@@ -24,7 +24,7 @@ It means you can still use them on your PHP templates with `$view['helper']->cal
 Moreover, the tag `templating.helper` is still working.  
 You can still define your own PHP template helper by simply adding this tag, just like before.
 
-#Notes
+# Notes
 
 PHP Form templates does *NOT* work.  
 It requires more works and it shouldn't be too much work to rewrite only these templates into Twig.
