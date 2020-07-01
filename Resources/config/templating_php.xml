@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false" />
+
+        <service id="nyrodev.templating.engine.php.helpers_locator">
+            <tag name="container.service_locator" />
+            <argument type="collection" />
+        </service>
+
+        <service id="nyrodev.templating.helper.slots" class="Symfony\Component\Templating\Helper\SlotsHelper">
+            <tag name="templating.helper" alias="slots" />
+        </service>
+
+        <service id="nyrodev.templating.helper.request" class="NyroDev\PhpTemplateBundle\Helper\RequestHelper">
+            <tag name="templating.helper" alias="request" />
+            <argument type="service" id="request_stack" />
+        </service>
+
+        <service id="nyrodev.templating.helper.session" class="NyroDev\PhpTemplateBundle\Helper\SessionHelper">
+            <tag name="templating.helper" alias="session" />
+            <argument type="service" id="request_stack" />
+        </service>
+
+        <service id="nyrodev.templating.helper.router" class="NyroDev\PhpTemplateBundle\Helper\RouterHelper">
+            <tag name="templating.helper" alias="router" />
+            <argument type="service" id="router" />
+        </service>
+
+        <service id="nyrodev.templating.helper.assets" class="NyroDev\PhpTemplateBundle\Helper\AssetsHelper">
+            <tag name="templating.helper" alias="assets" />
+            <argument type="service" id="assets.packages" />
+        </service>
+
+        <service id="nyrodev.templating.helper.actions" class="NyroDev\PhpTemplateBundle\Helper\ActionsHelper">
+            <tag name="templating.helper" alias="actions" />
+            <argument type="service" id="fragment.handler" />
+        </service>
+
+        <service id="nyrodev.templating.helper.code" class="NyroDev\PhpTemplateBundle\Helper\CodeHelper">
+            <tag name="templating.helper" alias="code" />
+            <argument type="service" id="debug.file_link_formatter"></argument>
+            <argument>%kernel.project_dir%</argument>
+            <argument>%kernel.charset%</argument>
+        </service>
+
+        <service id="nyrodev.templating.helper.translator" class="NyroDev\PhpTemplateBundle\Helper\TranslatorHelper">
+            <tag name="templating.helper" alias="translator" />
+            <argument type="service" id="translator" on-invalid="null" />
+        </service>
+
+        <service id="nyrodev.templating.helper.form" class="NyroDev\PhpTemplateBundle\Helper\FormHelper">
+            <tag name="templating.helper" alias="form" />
+            <argument type="service" id="twig.form.renderer" />
+        </service>
+
+        <service id="nyrodev.templating.helper.stopwatch" class="NyroDev\PhpTemplateBundle\Helper\StopwatchHelper">
+            <tag name="templating.helper" alias="stopwatch" />
+            <argument type="service" id="debug.stopwatch" on-invalid="ignore" />
+        </service>
+
+    </services>
+</container>

@@ -1,0 +1,21 @@
+{
+    "name": "nyrodev/php-template-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony Bundle to keep using PHP templates",
+    "homepage": "https://github.com/nyroDev/PhpTemplateBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cédric Nirousset",
+            "email": "cedric@nyrodev.com",
+            "homepage": "http://nyrodev.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "symfony/templating": "^5"
+    },
+    "autoload": {
+        "psr-4": { "NyroDev\\PhpTemplateBundle\\": "" }
+    }
+}

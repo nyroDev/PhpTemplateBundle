@@ -1,0 +1,32 @@
+services:
+    nyrodev.templating.php.name_parser:
+        class: Symfony\Component\Templating\TemplateNameParser
+        public: false
+    nyrodev.templating.php.loader:
+        class: NyroDev\PhpTemplateBundle\Templating\PhpTemplateLoader
+        public: false
+        calls:
+            - [setTwigLoader, ['@twig.loader']]
+
+    nyrodev.templating.php.templating:
+        class: NyroDev\PhpTemplateBundle\Templating\PhpEngine
+        public: false
+        arguments:
+            $parser: '@nyrodev.templating.php.name_parser'
+            $loader: '@nyrodev.templating.php.loader'
+        calls:
+            - [setContainer, ['@nyrodev.templating.engine.php.helpers_locator']]
+
+    twig:
+        class: NyroDev\PhpTemplateBundle\Templating\PhpTemplate
+        public: true
+        arguments:
+            $loader: '@twig.loader'
+            $options: []
+        calls:
+            - [addGlobal, ['app', '@twig.app_variable']]
+            - [addRuntimeLoader, ['@twig.runtime_loader']]
+            - [setTemplating, ['@nyrodev.templating.php.templating']]
+        configurator: ['@twig.configurator.environment', 'configure']
+    Twig_Environment: '@twig'
+    Twig\Environment: '@twig'
