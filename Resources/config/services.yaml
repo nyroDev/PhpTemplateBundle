@@ -1,6 +1,6 @@
 services:
     nyrodev.templating.php.name_parser:
-        class: Symfony\Component\Templating\TemplateNameParser
+        class: NyroDev\PhpTemplateBundle\Templating\PhpTemplateNameParser
         public: false
     nyrodev.templating.php.loader:
         class: NyroDev\PhpTemplateBundle\Templating\PhpTemplateLoader
