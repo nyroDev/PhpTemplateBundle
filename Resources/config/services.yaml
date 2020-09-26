@@ -10,7 +10,7 @@ services:
 
     nyrodev.templating.php.templating:
         class: NyroDev\PhpTemplateBundle\Templating\PhpEngine
-        public: false
+        public: true
         arguments:
             $parser: '@nyrodev.templating.php.name_parser'
             $loader: '@nyrodev.templating.php.loader'
