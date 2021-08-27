@@ -61,11 +61,11 @@ class SessionHelper extends Helper
     private function getSession(): SessionInterface
     {
         if (null === $this->session) {
-            if (!$this->requestStack->getMasterRequest()) {
+            if (!$this->requestStack->getMainRequest()) {
                 throw new \LogicException('A Request must be available.');
             }
 
-            $this->session = $this->requestStack->getMasterRequest()->getSession();
+            $this->session = $this->requestStack->getMainRequest()->getSession();
         }
 
         return $this->session;
