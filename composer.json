@@ -15,6 +15,10 @@
     "require": {
         "symfony/templating": "^6"
     },
+    "suggest": {
+        "symfony/assets": "To use assets helper in templates",
+        "symfony/form": "To use form, helper provided"
+    },
     "autoload": {
         "psr-4": { "NyroDev\\PhpTemplateBundle\\": "" }
     }

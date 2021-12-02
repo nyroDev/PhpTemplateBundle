@@ -31,11 +31,6 @@
             <argument type="service" id="router" />
         </service>
 
-        <service id="nyrodev.templating.helper.assets" class="NyroDev\PhpTemplateBundle\Helper\AssetsHelper">
-            <tag name="templating.helper" alias="assets" />
-            <argument type="service" id="assets.packages" />
-        </service>
-
         <service id="nyrodev.templating.helper.actions" class="NyroDev\PhpTemplateBundle\Helper\ActionsHelper">
             <tag name="templating.helper" alias="actions" />
             <argument type="service" id="fragment.handler" />
@@ -51,11 +46,6 @@
         <service id="nyrodev.templating.helper.translator" class="NyroDev\PhpTemplateBundle\Helper\TranslatorHelper">
             <tag name="templating.helper" alias="translator" />
             <argument type="service" id="translator" on-invalid="null" />
-        </service>
-
-        <service id="nyrodev.templating.helper.form" class="NyroDev\PhpTemplateBundle\Helper\FormHelper">
-            <tag name="templating.helper" alias="form" />
-            <argument type="service" id="twig.form.renderer" />
         </service>
 
         <service id="nyrodev.templating.helper.stopwatch" class="NyroDev\PhpTemplateBundle\Helper\StopwatchHelper">

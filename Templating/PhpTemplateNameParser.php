@@ -3,13 +3,14 @@
 namespace NyroDev\PhpTemplateBundle\Templating;
 
 use Symfony\Component\Templating\TemplateNameParserInterface;
+use Symfony\Component\Templating\TemplateReferenceInterface;
 
 class PhpTemplateNameParser implements TemplateNameParserInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function parse($name)
+    public function parse(string|TemplateReferenceInterface $name): TemplateReferenceInterface
     {
         if ($name instanceof TemplateReferenceInterface) {
             return $name;

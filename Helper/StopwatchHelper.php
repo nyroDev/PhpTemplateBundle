@@ -28,7 +28,7 @@ class StopwatchHelper extends Helper
         $this->stopwatch = $stopwatch;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'stopwatch';
     }

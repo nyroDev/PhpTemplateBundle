@@ -4,6 +4,7 @@ namespace NyroDev\PhpTemplateBundle\Templating;
 
 use Symfony\Component\Templating\Loader\FilesystemLoader;
 use Symfony\Component\Templating\Loader\LoaderInterface;
+use Symfony\Component\Templating\Storage\Storage;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 use Twig\Loader\LoaderInterface as TwigLoaderInterface;
 
@@ -26,12 +27,12 @@ class PhpTemplateLoader implements LoaderInterface
         $this->loader = new FilesystemLoader(array_reverse($paths));
     }
 
-    public function load(TemplateReferenceInterface $template)
+    public function load(TemplateReferenceInterface $template): Storage|false
     {
         return $this->loader->load($template);
     }
 
-    public function isFresh(TemplateReferenceInterface $template, int $time)
+    public function isFresh(TemplateReferenceInterface $template, int $time): bool
     {
         return $this->loader->isFresh($template, $time);
     }
