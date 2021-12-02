@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "symfony/templating": "^5"
+        "symfony/templating": "^6"
     },
     "autoload": {
         "psr-4": { "NyroDev\\PhpTemplateBundle\\": "" }
