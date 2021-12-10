@@ -20,16 +20,23 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class TemplatingPass implements CompilerPassInterface
 {
+    public const TEMPLATING_HELPER_TAG = 'templating.helper';
+
     public function process(ContainerBuilder $container)
     {
         if ($container->hasDefinition('nyrodev.templating.php.templating')) {
             $refs = [];
             $helpers = [];
 
-            foreach ($container->findTaggedServiceIds('templating.helper', true) as $id => $attributes) {
+            foreach ($container->findTaggedServiceIds(self::TEMPLATING_HELPER_TAG, true) as $id => $attributes) {
                 if (isset($attributes[0]['alias'])) {
                     $helpers[$attributes[0]['alias']] = $id;
                     $refs[$id] = new Reference($id);
+                } elseif (is_callable($id.'::getAlias')) {
+                    $helpers[call_user_func($id.'::getAlias')] = $id;
+                    $refs[$id] = new Reference($id);
+                } else {
+                    throw new \Exception('Tag '.self::TEMPLATING_HELPER_TAG.' found, not alias provided');
                 }
             }
 
@@ -45,13 +52,13 @@ class TemplatingPass implements CompilerPassInterface
 
         if ($container->hasDefinition('assets.packages')) {
             $definitionAssets = new Definition(AssetsHelper::class);
-            $definitionAssets->addTag('templating.helper', ['alias' => 'assets']);
+            $definitionAssets->addTag(self::TEMPLATING_HELPER_TAG, ['alias' => 'assets']);
             $container->setDefinition('nyrodev.templating.helper.assets', $definitionAssets);
         }
 
         if ($container->hasDefinition('twig.form.renderer')) {
             $definitionForm = new Definition(FormHelper::class);
-            $definitionForm->addTag('templating.helper', ['alias' => 'form']);
+            $definitionForm->addTag(self::TEMPLATING_HELPER_TAG, ['alias' => 'form']);
             $container->setDefinition('nyrodev.templating.helper.form', $definitionForm);
         }
     }

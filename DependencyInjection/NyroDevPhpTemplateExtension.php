@@ -2,6 +2,8 @@
 
 namespace NyroDev\PhpTemplateBundle\DependencyInjection;
 
+use NyroDev\PhpTemplateBundle\DependencyInjection\Compiler\TemplatingPass;
+use NyroDev\PhpTemplateBundle\Helper\HelperInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -14,10 +16,13 @@ class NyroDevPhpTemplateExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../config'));
         $loader->load('services.yaml');
 
-        $loaderXml = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loaderXml = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../config'));
         $loaderXml->load('templating_php.xml');
+
+        $container->registerForAutoconfiguration(HelperInterface::class)
+            ->addTag(TemplatingPass::TEMPLATING_HELPER_TAG);
     }
 }

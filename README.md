@@ -24,6 +24,8 @@ It means you can still use them on your PHP templates with `$view['helper']->cal
 Moreover, the tag `templating.helper` is still working.  
 You can still define your own PHP template helper by simply adding this tag, just like before.
 
+You can also implements the `NyroDev\PhpTemplateBundle\Helper\HelperInterface` interface in order to be available from your view using the alias return by `getAlias`.
+
 # Notes
 
 PHP Form templates does *NOT* work.  
