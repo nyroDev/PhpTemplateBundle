@@ -44,6 +44,9 @@ class TemplatingPass implements CompilerPassInterface
         if ($container->hasDefinition('assets.packages')) {
             $id = 'nyrodev.templating.helper.assets';
             $definitionAssets = new Definition(AssetsHelper::class);
+            $definitionAssets->setArguments([
+                $container->getDefinition('assets.packages'),
+            ]);
             $definitionAssets->addTag(self::TEMPLATING_HELPER_TAG, ['alias' => 'assets']);
             $container->setDefinition($id, $definitionAssets);
 
@@ -54,6 +57,9 @@ class TemplatingPass implements CompilerPassInterface
         if ($container->hasDefinition('twig.form.renderer')) {
             $id = 'nyrodev.templating.helper.form';
             $definitionForm = new Definition(FormHelper::class);
+            $definitionForm->setArguments([
+                $container->getDefinition('twig.form.renderer'),
+            ]);
             $definitionForm->addTag(self::TEMPLATING_HELPER_TAG, ['alias' => 'form']);
             $container->setDefinition($id, $definitionForm);
 
