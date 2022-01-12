@@ -13,6 +13,7 @@ namespace NyroDev\PhpTemplateBundle\DependencyInjection\Compiler;
 
 use NyroDev\PhpTemplateBundle\Helper\AssetsHelper;
 use NyroDev\PhpTemplateBundle\Helper\FormHelper;
+use NyroDev\PhpTemplateBundle\Helper\TagRendererHelper;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -42,8 +43,9 @@ class TemplatingPass implements CompilerPassInterface
         }
 
         if ($container->hasDefinition('assets.packages')) {
-            $id = 'nyrodev.templating.helper.assets';
-            $definitionAssets = new Definition(AssetsHelper::class);
+            // Add helper
+            $id = AssetsHelper::class;
+            $definitionAssets = new Definition($id);
             $definitionAssets->setArguments([
                 $container->getDefinition('assets.packages'),
             ]);
@@ -52,11 +54,30 @@ class TemplatingPass implements CompilerPassInterface
 
             $helpers['assets'] = $id;
             $refs[$id] = new Reference($id);
+
+            // Add tag renderer
+            if ($container->hasDefinition('webpack_encore.entrypoint_lookup_collection')) {
+                $idRenderer = 'nyrodev_tagRenderer';
+                $classRenderer = TagRendererHelper::class;
+
+                $definitionRenderer = new Definition($classRenderer);
+                $definitionRenderer->setArguments([
+                    $container->getDefinition('assets.packages'),
+                    $container->getDefinition('webpack_encore.entrypoint_lookup_collection'),
+                ]);
+                $definitionRenderer->addTag(self::TEMPLATING_HELPER_TAG, ['alias' => 'nyrodev_tagRenderer']);
+                $container->setDefinition($idRenderer, $definitionRenderer);
+
+                $container->setAlias($classRenderer, $idRenderer);
+
+                $helpers['nyrodev_tagRenderer'] = $idRenderer;
+                $refs[$idRenderer] = new Reference($idRenderer);
+            }
         }
 
         if ($container->hasDefinition('twig.form.renderer')) {
-            $id = 'nyrodev.templating.helper.form';
-            $definitionForm = new Definition(FormHelper::class);
+            $id = FormHelper::class;
+            $definitionForm = new Definition($id);
             $definitionForm->setArguments([
                 $container->getDefinition('twig.form.renderer'),
             ]);

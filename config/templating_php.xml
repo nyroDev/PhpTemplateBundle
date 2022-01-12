@@ -12,43 +12,43 @@
             <argument type="collection" />
         </service>
 
-        <service id="nyrodev.templating.helper.slots" class="Symfony\Component\Templating\Helper\SlotsHelper">
+        <service id="Symfony\Component\Templating\Helper\SlotsHelper" class="Symfony\Component\Templating\Helper\SlotsHelper">
             <tag name="templating.helper" alias="slots" />
         </service>
 
-        <service id="nyrodev.templating.helper.request" class="NyroDev\PhpTemplateBundle\Helper\RequestHelper">
+        <service id="NyroDev\PhpTemplateBundle\Helper\RequestHelper" class="NyroDev\PhpTemplateBundle\Helper\RequestHelper">
             <tag name="templating.helper" alias="request" />
             <argument type="service" id="request_stack" />
         </service>
 
-        <service id="nyrodev.templating.helper.session" class="NyroDev\PhpTemplateBundle\Helper\SessionHelper">
+        <service id="NyroDev\PhpTemplateBundle\Helper\SessionHelper" class="NyroDev\PhpTemplateBundle\Helper\SessionHelper">
             <tag name="templating.helper" alias="session" />
             <argument type="service" id="request_stack" />
         </service>
 
-        <service id="nyrodev.templating.helper.router" class="NyroDev\PhpTemplateBundle\Helper\RouterHelper">
+        <service id="NyroDev\PhpTemplateBundle\Helper\RouterHelper" class="NyroDev\PhpTemplateBundle\Helper\RouterHelper">
             <tag name="templating.helper" alias="router" />
             <argument type="service" id="router" />
         </service>
 
-        <service id="nyrodev.templating.helper.actions" class="NyroDev\PhpTemplateBundle\Helper\ActionsHelper">
+        <service id="NyroDev\PhpTemplateBundle\Helper\ActionsHelper" class="NyroDev\PhpTemplateBundle\Helper\ActionsHelper">
             <tag name="templating.helper" alias="actions" />
             <argument type="service" id="fragment.handler" />
         </service>
 
-        <service id="nyrodev.templating.helper.code" class="NyroDev\PhpTemplateBundle\Helper\CodeHelper">
+        <service id="NyroDev\PhpTemplateBundle\Helper\CodeHelper" class="NyroDev\PhpTemplateBundle\Helper\CodeHelper">
             <tag name="templating.helper" alias="code" />
             <argument type="service" id="debug.file_link_formatter"></argument>
             <argument>%kernel.project_dir%</argument>
             <argument>%kernel.charset%</argument>
         </service>
 
-        <service id="nyrodev.templating.helper.translator" class="NyroDev\PhpTemplateBundle\Helper\TranslatorHelper">
+        <service id="NyroDev\PhpTemplateBundle\Helper\TranslatorHelper" class="NyroDev\PhpTemplateBundle\Helper\TranslatorHelper">
             <tag name="templating.helper" alias="translator" />
             <argument type="service" id="translator" on-invalid="null" />
         </service>
 
-        <service id="nyrodev.templating.helper.stopwatch" class="NyroDev\PhpTemplateBundle\Helper\StopwatchHelper">
+        <service id="NyroDev\PhpTemplateBundle\Helper\StopwatchHelper" class="NyroDev\PhpTemplateBundle\Helper\StopwatchHelper">
             <tag name="templating.helper" alias="stopwatch" />
             <argument type="service" id="debug.stopwatch" on-invalid="ignore" />
         </service>
