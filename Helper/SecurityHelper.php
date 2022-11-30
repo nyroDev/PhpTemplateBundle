@@ -45,7 +45,7 @@ class SecurityHelper extends Helper
 
         try {
             return $this->securityChecker->isGranted($role, $object);
-        } catch (AuthenticationCredentialsNotFoundException) {
+        } catch (AuthenticationCredentialsNotFoundException $e) {
             return false;
         }
     }

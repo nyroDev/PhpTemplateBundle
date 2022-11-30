@@ -26,6 +26,12 @@
             <argument type="service" id="request_stack" />
         </service>
 
+        <service id="NyroDev\PhpTemplateBundle\Helper\SecurityHelper" class="NyroDev\PhpTemplateBundle\Helper\SecurityHelper">
+            <tag name="templating.helper" alias="security" />
+            <argument type="service" id="security.helper" />
+            <argument type="service" id="security.impersonate_url_generator" />
+        </service>
+
         <service id="NyroDev\PhpTemplateBundle\Helper\RouterHelper" class="NyroDev\PhpTemplateBundle\Helper\RouterHelper">
             <tag name="templating.helper" alias="router" />
             <argument type="service" id="router" />
