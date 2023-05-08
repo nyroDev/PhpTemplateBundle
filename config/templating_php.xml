@@ -28,8 +28,8 @@
 
         <service id="NyroDev\PhpTemplateBundle\Helper\SecurityHelper" class="NyroDev\PhpTemplateBundle\Helper\SecurityHelper">
             <tag name="templating.helper" alias="security" />
-            <argument type="service" id="security.helper" />
-            <argument type="service" id="security.impersonate_url_generator" />
+            <argument type="service" id="security.helper" on-invalid="null" />
+            <argument type="service" id="security.impersonate_url_generator" on-invalid="null" />
         </service>
 
         <service id="NyroDev\PhpTemplateBundle\Helper\RouterHelper" class="NyroDev\PhpTemplateBundle\Helper\RouterHelper">
