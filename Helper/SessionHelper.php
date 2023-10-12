@@ -11,6 +11,7 @@
 
 namespace NyroDev\PhpTemplateBundle\Helper;
 
+use LogicException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Templating\Helper\Helper;
@@ -62,7 +63,7 @@ class SessionHelper extends Helper
     {
         if (null === $this->session) {
             if (!$this->requestStack->getMainRequest()) {
-                throw new \LogicException('A Request must be available.');
+                throw new LogicException('A Request must be available.');
             }
 
             $this->session = $this->requestStack->getMainRequest()->getSession();

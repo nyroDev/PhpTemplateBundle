@@ -11,6 +11,7 @@
 
 namespace NyroDev\PhpTemplateBundle\Helper;
 
+use BadMethodCallException;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Templating\Helper\Helper;
 
@@ -43,6 +44,6 @@ class StopwatchHelper extends Helper
             return $this->stopwatch->{$method}(...$arguments);
         }
 
-        throw new \BadMethodCallException(sprintf('Method "%s" of Stopwatch does not exist.', $method));
+        throw new BadMethodCallException(sprintf('Method "%s" of Stopwatch does not exist.', $method));
     }
 }

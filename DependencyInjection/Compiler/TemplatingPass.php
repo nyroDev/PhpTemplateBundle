@@ -11,6 +11,7 @@
 
 namespace NyroDev\PhpTemplateBundle\DependencyInjection\Compiler;
 
+use Exception;
 use NyroDev\PhpTemplateBundle\Helper\AssetsHelper;
 use NyroDev\PhpTemplateBundle\Helper\FormHelper;
 use NyroDev\PhpTemplateBundle\Helper\TagRendererHelper;
@@ -18,6 +19,8 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
+
+use function count;
 
 class TemplatingPass implements CompilerPassInterface
 {
@@ -37,7 +40,7 @@ class TemplatingPass implements CompilerPassInterface
                     $helpers[call_user_func($id.'::getAlias')] = $id;
                     $refs[$id] = new Reference($id);
                 } else {
-                    throw new \Exception('Tag '.self::TEMPLATING_HELPER_TAG.' found, not alias provided');
+                    throw new Exception('Tag '.self::TEMPLATING_HELPER_TAG.' found, not alias provided');
                 }
             }
         }
@@ -88,7 +91,7 @@ class TemplatingPass implements CompilerPassInterface
             $refs[$id] = new Reference($id);
         }
 
-        if (\count($helpers) > 0) {
+        if (count($helpers) > 0) {
             $definition = $container->getDefinition('nyrodev.templating.php.templating');
             $definition->addMethodCall('setHelpers', [$helpers]);
 

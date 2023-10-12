@@ -2,6 +2,7 @@
 
 namespace NyroDev\PhpTemplateBundle\Helper;
 
+use Exception;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Templating\Helper\Helper;
 use Symfony\WebpackEncoreBundle\Asset\EntrypointLookupCollection;
@@ -92,7 +93,7 @@ class TagRendererHelper extends Helper
     public function getAssetPath(string $assetPath, string $packageName = null): string
     {
         if (null === $this->getAssetsPackages()) {
-            throw new \Exception('To render the script or link tags, run "composer require symfony/asset".');
+            throw new Exception('To render the script or link tags, run "composer require symfony/asset".');
         }
 
         return $this->getAssetsPackages()->getUrl(

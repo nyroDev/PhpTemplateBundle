@@ -11,6 +11,7 @@
 
 namespace NyroDev\PhpTemplateBundle\Helper;
 
+use LogicException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Templating\Helper\Helper;
@@ -57,7 +58,7 @@ class RequestHelper extends Helper
     private function getRequest(): Request
     {
         if (!$this->requestStack->getCurrentRequest()) {
-            throw new \LogicException('A Request must be available.');
+            throw new LogicException('A Request must be available.');
         }
 
         return $this->requestStack->getCurrentRequest();

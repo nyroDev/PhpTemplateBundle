@@ -11,6 +11,7 @@
 
 namespace NyroDev\PhpTemplateBundle\Helper;
 
+use BadMethodCallException;
 use Symfony\Component\Form\FormRendererInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Templating\Helper\Helper;
@@ -226,7 +227,7 @@ class FormHelper extends Helper
      *
      * @return string A CSRF token
      *
-     * @throws \BadMethodCallException when no CSRF provider was injected in the constructor
+     * @throws BadMethodCallException when no CSRF provider was injected in the constructor
      */
     public function csrfToken($tokenId)
     {
