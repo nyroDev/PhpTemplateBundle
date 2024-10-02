@@ -12,7 +12,7 @@
 namespace NyroDev\PhpTemplateBundle\Helper;
 
 use finfo;
-use Symfony\Component\HttpKernel\Debug\FileLinkFormatter;
+use Symfony\Component\ErrorHandler\ErrorRenderer\FileLinkFormatter;
 use Symfony\Component\Templating\Helper\Helper;
 
 use function count;
@@ -28,35 +28,35 @@ use function is_string;
  */
 class CodeHelper extends Helper
 {
-    protected $fileLinkFormat;
-    protected $rootDir; // to be renamed $projectDir in 5.0
-    protected $charset;
+    private $fileLinkFormat;
+    protected $projectDir;
 
     /**
      * @param string|FileLinkFormatter $fileLinkFormat The format for links to source files
      * @param string                   $projectDir     The project root directory
      * @param string                   $charset        The charset
      */
-    public function __construct($fileLinkFormat, string $projectDir, string $charset)
-    {
+    public function __construct(
+        string|FileLinkFormatter $fileLinkFormat,
+        string $projectDir,
+        string $charset,
+    ) {
         $this->fileLinkFormat = $fileLinkFormat ?: ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
-        $this->rootDir = str_replace('\\', '/', $projectDir).'/';
-        $this->charset = $charset;
+        $this->projectDir = str_replace('\\', '/', $projectDir).'/';
+        $this->setCharset($charset);
     }
 
     /**
      * Formats an array as a string.
      *
      * @param array $args The argument array
-     *
-     * @return string
      */
-    public function formatArgsAsText(array $args)
+    public function formatArgsAsText(array $args): string
     {
         return strip_tags($this->formatArgs($args));
     }
 
-    public function abbrClass($class)
+    public function abbrClass(string $class): string
     {
         $parts = explode('\\', $class);
         $short = array_pop($parts);
@@ -64,7 +64,7 @@ class CodeHelper extends Helper
         return sprintf('<abbr title="%s">%s</abbr>', $class, $short);
     }
 
-    public function abbrMethod($method)
+    public function abbrMethod(string $method): string
     {
         if (false !== strpos($method, '::')) {
             list($class, $method) = explode('::', $method, 2);
@@ -82,10 +82,8 @@ class CodeHelper extends Helper
      * Formats an array as a string.
      *
      * @param array $args The argument array
-     *
-     * @return string
      */
-    public function formatArgs(array $args)
+    public function formatArgs(array $args): string
     {
         $result = [];
         foreach ($args as $key => $item) {
@@ -121,7 +119,7 @@ class CodeHelper extends Helper
      *
      * @return string|null An HTML string
      */
-    public function fileExcerpt($file, $line)
+    public function fileExcerpt(string $file, int $line): ?string
     {
         if (is_readable($file)) {
             if (extension_loaded('fileinfo')) {
@@ -157,20 +155,18 @@ class CodeHelper extends Helper
      * @param string $file An absolute file path
      * @param int    $line The line number
      * @param string $text Use this text for the link rather than the file path
-     *
-     * @return string
      */
-    public function formatFile($file, $line, $text = null)
+    public function formatFile(string $file, int $line, ?string $text = null): string
     {
         $flags = ENT_QUOTES | ENT_SUBSTITUTE;
 
         if (null === $text) {
             $file = trim($file);
             $fileStr = $file;
-            if (0 === strpos($fileStr, $this->rootDir)) {
-                $fileStr = str_replace(['\\', $this->rootDir], ['/', ''], $fileStr);
+            if (0 === strpos($fileStr, $this->projectDir)) {
+                $fileStr = str_replace(['\\', $this->projectDir], ['/', ''], $fileStr);
                 $fileStr = htmlspecialchars($fileStr, $flags, $this->charset);
-                $fileStr = sprintf('<abbr title="%s">kernel.project_dir</abbr>/%s', htmlspecialchars($this->rootDir, $flags, $this->charset), $fileStr);
+                $fileStr = sprintf('<abbr title="%s">kernel.project_dir</abbr>/%s', htmlspecialchars($this->projectDir, $flags, $this->charset), $fileStr);
             }
 
             $text = sprintf('%s at line %d', $fileStr, $line);
@@ -191,7 +187,7 @@ class CodeHelper extends Helper
      *
      * @return string A link of false
      */
-    public function getFileLink($file, $line)
+    public function getFileLink(string $file, int $line): string
     {
         if ($fmt = $this->fileLinkFormat) {
             return is_string($fmt) ? strtr($fmt, ['%f' => $file, '%l' => $line]) : $fmt->format($file, $line);
@@ -200,22 +196,19 @@ class CodeHelper extends Helper
         return false;
     }
 
-    public function formatFileFromText($text)
+    public function formatFileFromText(string $text): string
     {
         return preg_replace_callback('/in ("|&quot;)?(.+?)\1(?: +(?:on|at))? +line (\d+)/s', function ($match) {
             return 'in '.$this->formatFile($match[2], $match[3]);
         }, $text);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'code';
     }
 
-    protected static function fixCodeMarkup($line)
+    protected static function fixCodeMarkup(int $line): string
     {
         // </span> ending tag from previous line
         $opening = strpos($line, '<span');

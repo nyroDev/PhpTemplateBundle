@@ -9,14 +9,14 @@ use function is_string;
 
 class PhpEngine extends BasePhpEngine
 {
-    protected $container;
+    protected ?ContainerInterface $container = null;
 
-    public function setContainer(ContainerInterface $container)
+    public function setContainer(ContainerInterface $container): void
     {
         $this->container = $container;
     }
 
-    public function setHelpers(array $helpers)
+    public function setHelpers(array $helpers): void
     {
         foreach ($helpers as $k => $helper) {
             if (is_string($helpers[$k])) {

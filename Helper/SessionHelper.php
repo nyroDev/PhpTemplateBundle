@@ -23,12 +23,11 @@ use Symfony\Component\Templating\Helper\Helper;
  */
 class SessionHelper extends Helper
 {
-    protected $session;
-    protected $requestStack;
+    private ?SessionInterface $session = null;
 
-    public function __construct(RequestStack $requestStack)
-    {
-        $this->requestStack = $requestStack;
+    public function __construct(
+        private readonly RequestStack $requestStack,
+    ) {
     }
 
     /**
@@ -36,25 +35,23 @@ class SessionHelper extends Helper
      *
      * @param string $name    The attribute name
      * @param mixed  $default The default value
-     *
-     * @return mixed
      */
-    public function get($name, $default = null)
+    public function get(string $name, mixed $default = null): mixed
     {
         return $this->getSession()->get($name, $default);
     }
 
-    public function getFlash($name, array $default = [])
+    public function getFlash(string $name, array $default = []): array
     {
         return $this->getSession()->getFlashBag()->get($name, $default);
     }
 
-    public function getFlashes()
+    public function getFlashes(): array
     {
         return $this->getSession()->getFlashBag()->all();
     }
 
-    public function hasFlash($name)
+    public function hasFlash(string $name)
     {
         return $this->getSession()->getFlashBag()->has($name);
     }
@@ -72,9 +69,6 @@ class SessionHelper extends Helper
         return $this->session;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'session';

@@ -10,9 +10,9 @@ use Twig\Loader\LoaderInterface as TwigLoaderInterface;
 
 class PhpTemplateLoader implements LoaderInterface
 {
-    protected $loader;
+    protected ?FilesystemLoader $loader = null;
 
-    protected $paths = [];
+    protected array $paths = [];
 
     public function setTwigLoader(TwigLoaderInterface $loader)
     {

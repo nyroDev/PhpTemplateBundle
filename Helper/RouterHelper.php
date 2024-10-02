@@ -21,11 +21,9 @@ use Symfony\Component\Templating\Helper\Helper;
  */
 class RouterHelper extends Helper
 {
-    protected $generator;
-
-    public function __construct(UrlGeneratorInterface $router)
-    {
-        $this->generator = $router;
+    public function __construct(
+        private readonly UrlGeneratorInterface $generator,
+    ) {
     }
 
     /**
@@ -39,7 +37,7 @@ class RouterHelper extends Helper
      *
      * @see UrlGeneratorInterface
      */
-    public function path($name, $parameters = [], $relative = false)
+    public function path(string $name, array $parameters = [], bool $relative = false): string
     {
         return $this->generator->generate($name, $parameters, $relative ? UrlGeneratorInterface::RELATIVE_PATH : UrlGeneratorInterface::ABSOLUTE_PATH);
     }
@@ -55,14 +53,11 @@ class RouterHelper extends Helper
      *
      * @see UrlGeneratorInterface
      */
-    public function url($name, $parameters = [], $schemeRelative = false)
+    public function url(string $name, array $parameters = [], bool $schemeRelative = false): string
     {
         return $this->generator->generate($name, $parameters, $schemeRelative ? UrlGeneratorInterface::NETWORK_PATH : UrlGeneratorInterface::ABSOLUTE_URL);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'router';

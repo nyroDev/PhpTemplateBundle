@@ -21,11 +21,9 @@ use Symfony\Component\Templating\Helper\Helper;
  */
 class AssetsHelper extends Helper
 {
-    private $packages;
-
-    public function __construct(Packages $packages)
-    {
-        $this->packages = $packages;
+    public function __construct(
+        private readonly Packages $packages,
+    ) {
     }
 
     /**
@@ -39,7 +37,7 @@ class AssetsHelper extends Helper
      *
      * @return string The public path of the asset
      */
-    public function getUrl($path, $packageName = null)
+    public function getUrl(string $path, ?string $packageName = null): string
     {
         return $this->packages->getUrl($path, $packageName);
     }
@@ -52,14 +50,11 @@ class AssetsHelper extends Helper
      *
      * @return string The asset version
      */
-    public function getVersion($path, $packageName = null)
+    public function getVersion(string $path, ?string $packageName = null): string
     {
         return $this->packages->getVersion($path, $packageName);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'assets';

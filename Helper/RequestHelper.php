@@ -23,11 +23,9 @@ use Symfony\Component\Templating\Helper\Helper;
  */
 class RequestHelper extends Helper
 {
-    protected $requestStack;
-
-    public function __construct(RequestStack $requestStack)
-    {
-        $this->requestStack = $requestStack;
+    public function __construct(
+        private readonly RequestStack $requestStack,
+    ) {
     }
 
     /**
@@ -36,21 +34,17 @@ class RequestHelper extends Helper
      * @param string $key     The name of the parameter
      * @param string $default A default value
      *
-     * @return mixed
-     *
      * @see Request::get()
      */
-    public function getParameter($key, $default = null)
+    public function getParameter(string $key, ?string $default = null): mixed
     {
         return $this->getRequest()->get($key, $default);
     }
 
     /**
      * Returns the locale.
-     *
-     * @return string
      */
-    public function getLocale()
+    public function getLocale(): string
     {
         return $this->getRequest()->getLocale();
     }
@@ -64,9 +58,6 @@ class RequestHelper extends Helper
         return $this->requestStack->getCurrentRequest();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'request';

@@ -6,9 +6,9 @@ use Twig\Environment;
 
 class PhpTemplate extends Environment
 {
-    protected $templating;
+    protected ?PhpEngine $templating = null;
 
-    public function setTemplating(PhpEngine $templating)
+    public function setTemplating(PhpEngine $templating): void
     {
         $this->templating = $templating;
     }

@@ -22,11 +22,9 @@ use Symfony\Component\Templating\Helper\Helper;
  */
 class StopwatchHelper extends Helper
 {
-    private $stopwatch;
-
-    public function __construct(Stopwatch $stopwatch = null)
-    {
-        $this->stopwatch = $stopwatch;
+    public function __construct(
+        private readonly ?Stopwatch $stopwatch = null,
+    ) {
     }
 
     public function getName(): string

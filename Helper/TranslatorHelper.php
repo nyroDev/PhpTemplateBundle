@@ -12,14 +12,8 @@
 namespace NyroDev\PhpTemplateBundle\Helper;
 
 use Symfony\Component\Templating\Helper\Helper;
-use Symfony\Component\Translation\TranslatorInterface as LegacyTranslatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Contracts\Translation\TranslatorTrait;
-use TypeError;
-
-use function get_class;
-use function gettype;
-use function is_object;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -32,23 +26,15 @@ class TranslatorHelper extends Helper
         trans as private doTrans;
     }
 
-    protected $translator;
-
-    /**
-     * @param TranslatorInterface|null $translator
-     */
-    public function __construct($translator = null)
-    {
-        if (null !== $translator && !$translator instanceof LegacyTranslatorInterface && !$translator instanceof TranslatorInterface) {
-            throw new TypeError(sprintf('Argument 1 passed to "%s()" must be an instance of "%s", "%s" given.', __METHOD__, TranslatorInterface::class, is_object($translator) ? get_class($translator) : gettype($translator)));
-        }
-        $this->translator = $translator;
+    public function __construct(
+        private readonly ?TranslatorInterface $translator = null,
+    ) {
     }
 
     /**
      * @see TranslatorInterface::trans()
      */
-    public function trans($id, array $parameters = [], $domain = 'messages', $locale = null)
+    public function trans(string $id, array $parameters = [], string $domain = 'messages', ?string $locale = null): string
     {
         if (null === $this->translator) {
             return $this->doTrans($id, $parameters, $domain, $locale);
@@ -61,7 +47,7 @@ class TranslatorHelper extends Helper
      * @see TranslatorInterface::transChoice()
      * @deprecated since Symfony 4.2, use the trans() method instead with a %count% parameter
      */
-    public function transChoice($id, $number, array $parameters = [], $domain = 'messages', $locale = null)
+    public function transChoice(string $id, $number, array $parameters = [], string $domain = 'messages', ?string $locale = null): stirng
     {
         @trigger_error(sprintf('The "%s()" method is deprecated since Symfony 4.2, use the trans() one instead with a "%%count%%" parameter.', __METHOD__), E_USER_DEPRECATED);
 
@@ -75,9 +61,6 @@ class TranslatorHelper extends Helper
         return $this->translator->transChoice($id, $number, $parameters, $domain, $locale);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'translator';

@@ -24,16 +24,11 @@ use Symfony\Component\Templating\Helper\Helper;
  */
 class FormHelper extends Helper
 {
-    private $renderer;
-
-    public function __construct(FormRendererInterface $renderer)
-    {
-        $this->renderer = $renderer;
+    public function __construct(
+        private readonly FormRendererInterface $renderer,
+    ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'form';
@@ -47,7 +42,7 @@ class FormHelper extends Helper
      * @param string|array $themes           A theme or an array of theme
      * @param bool         $useDefaultThemes If true, will use default themes defined in the renderer
      */
-    public function setTheme(FormView $view, $themes, $useDefaultThemes = true)
+    public function setTheme(FormView $view, string|array $themes, bool $useDefaultThemes = true): void
     {
         $this->renderer->setTheme($view, $themes, $useDefaultThemes);
     }
@@ -75,7 +70,7 @@ class FormHelper extends Helper
      *
      * @return string The HTML markup
      */
-    public function form(FormView $view, array $variables = [])
+    public function form(FormView $view, array $variables = []): string
     {
         return $this->renderer->renderBlock($view, 'form', $variables);
     }
@@ -91,7 +86,7 @@ class FormHelper extends Helper
      *
      * @return string The HTML markup
      */
-    public function start(FormView $view, array $variables = [])
+    public function start(FormView $view, array $variables = []): string
     {
         return $this->renderer->renderBlock($view, 'form_start', $variables);
     }
@@ -107,7 +102,7 @@ class FormHelper extends Helper
      *
      * @return string The HTML markup
      */
-    public function end(FormView $view, array $variables = [])
+    public function end(FormView $view, array $variables = []): string
     {
         return $this->renderer->renderBlock($view, 'form_end', $variables);
     }
@@ -129,7 +124,7 @@ class FormHelper extends Helper
      *
      * @return string The HTML markup
      */
-    public function widget(FormView $view, array $variables = [])
+    public function widget(FormView $view, array $variables = []): string
     {
         return $this->renderer->searchAndRenderBlock($view, 'widget', $variables);
     }
@@ -141,7 +136,7 @@ class FormHelper extends Helper
      *
      * @return string The HTML markup
      */
-    public function row(FormView $view, array $variables = [])
+    public function row(FormView $view, array $variables = []): string
     {
         return $this->renderer->searchAndRenderBlock($view, 'row', $variables);
     }
@@ -154,7 +149,7 @@ class FormHelper extends Helper
      *
      * @return string The HTML markup
      */
-    public function label(FormView $view, $label = null, array $variables = [])
+    public function label(FormView $view, ?string $label = null, ?array $variables = []): string
     {
         if (null !== $label) {
             $variables += ['label' => $label];
@@ -178,7 +173,7 @@ class FormHelper extends Helper
      *
      * @return string The HTML markup
      */
-    public function errors(FormView $view)
+    public function errors(FormView $view): string
     {
         return $this->renderer->searchAndRenderBlock($view, 'errors');
     }
@@ -190,7 +185,7 @@ class FormHelper extends Helper
      *
      * @return string The HTML markup
      */
-    public function rest(FormView $view, array $variables = [])
+    public function rest(FormView $view, array $variables = []): string
     {
         return $this->renderer->searchAndRenderBlock($view, 'rest', $variables);
     }
@@ -203,7 +198,7 @@ class FormHelper extends Helper
      *
      * @return string The HTML markup
      */
-    public function block(FormView $view, $blockName, array $variables = [])
+    public function block(FormView $view, string $blockName, array $variables = []): string
     {
         return $this->renderer->renderBlock($view, $blockName, $variables);
     }
@@ -229,12 +224,12 @@ class FormHelper extends Helper
      *
      * @throws BadMethodCallException when no CSRF provider was injected in the constructor
      */
-    public function csrfToken($tokenId)
+    public function csrfToken(string $tokenId): string
     {
         return $this->renderer->renderCsrfToken($tokenId);
     }
 
-    public function humanize($text)
+    public function humanize(string $text): string
     {
         return $this->renderer->humanize($text);
     }
@@ -242,7 +237,7 @@ class FormHelper extends Helper
     /**
      * @internal
      */
-    public function formEncodeCurrency($text, $widget = '')
+    public function formEncodeCurrency(string $text, ?string $widget = ''): string
     {
         if ('UTF-8' === $charset = $this->getCharset()) {
             $text = htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');

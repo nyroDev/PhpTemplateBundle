@@ -22,23 +22,17 @@ use Symfony\Component\Templating\Helper\Helper;
  */
 class ActionsHelper extends Helper
 {
-    private $handler;
-
-    public function __construct(FragmentHandler $handler)
-    {
-        $this->handler = $handler;
+    public function __construct(
+        private readonly FragmentHandler $handler,
+    ) {
     }
 
     /**
      * Returns the fragment content for a given URI.
      *
-     * @param string $uri
-     *
-     * @return string The fragment content
-     *
      * @see FragmentHandler::render()
      */
-    public function render($uri, array $options = [])
+    public function render(string|ControllerReference $uri, array $options = []): string
     {
         $strategy = isset($options['strategy']) ? $options['strategy'] : 'inline';
         unset($options['strategy']);
@@ -46,14 +40,11 @@ class ActionsHelper extends Helper
         return $this->handler->render($uri, $strategy, $options);
     }
 
-    public function controller($controller, $attributes = [], $query = [])
+    public function controller(string $controller, array $attributes = [], array $query = []): ControllerReference
     {
         return new ControllerReference($controller, $attributes, $query);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'actions';

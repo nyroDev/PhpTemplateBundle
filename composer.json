@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "symfony/templating": "^6"
+        "symfony/templating": "^7"
     },
     "suggest": {
         "symfony/assets": "To use assets helper in templates",

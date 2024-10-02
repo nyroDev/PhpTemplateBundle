@@ -6,5 +6,5 @@ use Symfony\Component\Templating\Helper\HelperInterface as SrcHelperInterface;
 
 interface HelperInterface extends SrcHelperInterface
 {
-    public static function getAlias();
+    public static function getAlias(): string;
 }

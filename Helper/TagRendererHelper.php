@@ -10,34 +10,23 @@ use Symfony\WebpackEncoreBundle\Asset\EntrypointLookupInterface;
 
 class TagRendererHelper extends Helper
 {
-    protected $assetsPackages;
-
-    private $entrypointLookupCollection;
-
     public function getName()
     {
         return 'nyrodev_tagRenderer';
     }
 
     public function __construct(
-        Packages $assetsPackages,
-        EntrypointLookupCollection $entrypointLookupCollection
+        private readonly Packages $assetsPackages,
+        private readonly EntrypointLookupCollection $entrypointLookupCollection,
     ) {
-        $this->assetsPackages = $assetsPackages;
-        $this->entrypointLookupCollection = $entrypointLookupCollection;
     }
 
-    protected function getAssetsPackages(): Packages
-    {
-        return $this->assetsPackages;
-    }
-
-    public function reset(string $entrypointName = '_default')
+    public function reset(string $entrypointName = '_default'): void
     {
         $this->getEntrypointLookup($entrypointName)->reset();
     }
 
-    public function renderWebpackScriptTags(string $entryName, string $moreAttrs = null, string $packageName = null, string $entrypointName = '_default'): string
+    public function renderWebpackScriptTags(string $entryName, ?string $moreAttrs = null, ?string $packageName = null, string $entrypointName = '_default'): string
     {
         $scriptTags = [];
         foreach ($this->getScriptFiles($entryName, $packageName, $entrypointName) as $filename) {
@@ -52,12 +41,7 @@ class TagRendererHelper extends Helper
             .implode('', $scriptTags);
     }
 
-    public function getTest()
-    {
-        return 'test';
-    }
-
-    public function getScriptFiles(string $entryName, string $packageName = null, string $entrypointName = '_default'): array
+    public function getScriptFiles(string $entryName, ?string $packageName = null, string $entrypointName = '_default'): array
     {
         $scriptFiles = [];
         foreach ($this->getEntrypointLookup($entrypointName)->getJavaScriptFiles($entryName) as $filename) {
@@ -67,7 +51,7 @@ class TagRendererHelper extends Helper
         return $scriptFiles;
     }
 
-    public function renderWebpackLinkTags(string $entryName, string $moreAttrs = null, string $packageName = null, string $entrypointName = '_default'): string
+    public function renderWebpackLinkTags(string $entryName, ?string $moreAttrs = null, ?string $packageName = null, string $entrypointName = '_default'): string
     {
         $linkTags = [];
         foreach ($this->getLinkFiles($entryName, $packageName, $entrypointName) as $filename) {
@@ -80,7 +64,7 @@ class TagRendererHelper extends Helper
         return implode('', $linkTags);
     }
 
-    public function getLinkFiles(string $entryName, string $packageName = null, string $entrypointName = '_default'): array
+    public function getLinkFiles(string $entryName, ?string $packageName = null, string $entrypointName = '_default'): array
     {
         $linkFiles = [];
         foreach ($this->getEntrypointLookup($entrypointName)->getCssFiles($entryName) as $filename) {
@@ -90,13 +74,13 @@ class TagRendererHelper extends Helper
         return $linkFiles;
     }
 
-    public function getAssetPath(string $assetPath, string $packageName = null): string
+    public function getAssetPath(string $assetPath, ?string $packageName = null): string
     {
-        if (null === $this->getAssetsPackages()) {
+        if (null === $this->assetsPackages) {
             throw new Exception('To render the script or link tags, run "composer require symfony/asset".');
         }
 
-        return $this->getAssetsPackages()->getUrl(
+        return $this->assetsPackages->getUrl(
             $assetPath,
             $packageName
         );
