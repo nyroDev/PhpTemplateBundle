@@ -26,7 +26,7 @@ class TemplatingPass implements CompilerPassInterface
 {
     public const TEMPLATING_HELPER_TAG = 'templating.helper';
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $refs = [];
         $helpers = [];

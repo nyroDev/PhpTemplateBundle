@@ -10,7 +10,7 @@ use Symfony\WebpackEncoreBundle\Asset\EntrypointLookupInterface;
 
 class TagRendererHelper extends Helper
 {
-    public function getName()
+    public function getName(): string
     {
         return 'nyrodev_tagRenderer';
     }
