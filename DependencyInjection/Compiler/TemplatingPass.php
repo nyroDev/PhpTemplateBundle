@@ -81,8 +81,6 @@ class TemplatingPass implements CompilerPassInterface
 
                 $container->setAlias($classRenderer, $idRenderer);
 
-                $container->getParameter('nyrodev_templating.injectedAssets');
-
                 $helpers['nyrodev_tagRenderer'] = $idRenderer;
                 $refs[$idRenderer] = new Reference($idRenderer);
             }

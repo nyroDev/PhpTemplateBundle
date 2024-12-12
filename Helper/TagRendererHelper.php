@@ -57,7 +57,7 @@ class TagRendererHelper extends Helper
 
         if (isset($this->injectedAssets[$entryName], $this->injectedAssets[$entryName]['js'])) {
             foreach($this->injectedAssets[$entryName]['js'] as $filename) {
-                $linkFiles[] = htmlentities($this->getAssetPath($filename, $packageName));
+                $scriptFiles[] = htmlentities($this->getAssetPath($filename, $packageName));
             }
         }
 
