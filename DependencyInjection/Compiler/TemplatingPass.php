@@ -68,10 +68,20 @@ class TemplatingPass implements CompilerPassInterface
                     $container->getDefinition('assets.packages'),
                     $container->getDefinition('webpack_encore.entrypoint_lookup_collection'),
                 ]);
+
+                if ($container->hasParameter('nyrodev_templating')) {
+                    $nyrodevTemplating = $container->getParameter('nyrodev_templating');
+                    if (is_array($nyrodevTemplating) && isset($nyrodevTemplating['injectedAssets'])) {
+                        $definitionRenderer->addMethodCall('setInjectedAssets', [$nyrodevTemplating['injectedAssets']]);
+                    }
+                }
+
                 $definitionRenderer->addTag(self::TEMPLATING_HELPER_TAG, ['alias' => 'nyrodev_tagRenderer']);
                 $container->setDefinition($idRenderer, $definitionRenderer);
 
                 $container->setAlias($classRenderer, $idRenderer);
+
+                $container->getParameter('nyrodev_templating.injectedAssets');
 
                 $helpers['nyrodev_tagRenderer'] = $idRenderer;
                 $refs[$idRenderer] = new Reference($idRenderer);

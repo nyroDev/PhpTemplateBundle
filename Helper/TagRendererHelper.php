@@ -14,6 +14,8 @@ class TagRendererHelper extends Helper
 
     private $entrypointLookupCollection;
 
+    private $injectedAssets = [];
+
     public function getName()
     {
         return 'nyrodev_tagRenderer';
@@ -25,6 +27,11 @@ class TagRendererHelper extends Helper
     ) {
         $this->assetsPackages = $assetsPackages;
         $this->entrypointLookupCollection = $entrypointLookupCollection;
+    }
+
+    public function setInjectedAssets(array $injectedAssets)
+    {
+        $this->injectedAssets = $injectedAssets;
     }
 
     protected function getAssetsPackages(): Packages
@@ -64,6 +71,12 @@ class TagRendererHelper extends Helper
             $scriptFiles[] = htmlentities($this->getAssetPath($filename, $packageName));
         }
 
+        if (isset($this->injectedAssets[$entryName], $this->injectedAssets[$entryName]['js'])) {
+            foreach($this->injectedAssets[$entryName]['js'] as $filename) {
+                $linkFiles[] = htmlentities($this->getAssetPath($filename, $packageName));
+            }
+        }
+
         return $scriptFiles;
     }
 
@@ -85,6 +98,12 @@ class TagRendererHelper extends Helper
         $linkFiles = [];
         foreach ($this->getEntrypointLookup($entrypointName)->getCssFiles($entryName) as $filename) {
             $linkFiles[] = htmlentities($this->getAssetPath($filename, $packageName));
+        }
+
+        if (isset($this->injectedAssets[$entryName], $this->injectedAssets[$entryName]['css'])) {
+            foreach($this->injectedAssets[$entryName]['css'] as $filename) {
+                $linkFiles[] = htmlentities($this->getAssetPath($filename, $packageName));
+            }
         }
 
         return $linkFiles;
