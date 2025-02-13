@@ -56,7 +56,7 @@ class TagRendererHelper extends Helper
         }
 
         if (isset($this->injectedAssets[$entryName], $this->injectedAssets[$entryName]['js'])) {
-            foreach($this->injectedAssets[$entryName]['js'] as $filename) {
+            foreach ($this->injectedAssets[$entryName]['js'] as $filename) {
                 $scriptFiles[] = htmlentities($this->getAssetPath($filename, $packageName));
             }
         }
@@ -85,7 +85,7 @@ class TagRendererHelper extends Helper
         }
 
         if (isset($this->injectedAssets[$entryName], $this->injectedAssets[$entryName]['css'])) {
-            foreach($this->injectedAssets[$entryName]['css'] as $filename) {
+            foreach ($this->injectedAssets[$entryName]['css'] as $filename) {
                 $linkFiles[] = htmlentities($this->getAssetPath($filename, $packageName));
             }
         }
