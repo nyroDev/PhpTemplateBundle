@@ -16,15 +16,20 @@ class PhpTemplateLoader implements LoaderInterface
 
     public function setTwigLoader(TwigLoaderInterface $loader)
     {
+        $bundlePaths = [];
         $paths = [];
+
         foreach ($loader->getNamespaces() as $namespace) {
             foreach ($loader->getPaths($namespace) as $path) {
                 $paths[] = $path.'/%name%';
-                $paths[] = $path.'/%bundle%Bundle/%name%';
+                $bundlePaths[] = $path.'/%bundle%Bundle/%name%';
             }
         }
 
-        $this->loader = new FilesystemLoader(array_reverse($paths));
+        $this->loader = new FilesystemLoader(array_merge(
+            $bundlePaths,
+            $paths
+        ));
     }
 
     public function load(TemplateReferenceInterface $template): Storage|false
