@@ -49,7 +49,7 @@ class RequestHelper extends Helper
         return $this->getRequest()->getLocale();
     }
 
-    private function getRequest(): Request
+    public function getRequest(): Request
     {
         if (!$this->requestStack->getCurrentRequest()) {
             throw new LogicException('A Request must be available.');
