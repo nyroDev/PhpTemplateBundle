@@ -19,8 +19,8 @@ class NyroDevPhpTemplateExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../config'));
         $loader->load('services.yaml');
 
-        $loaderXml = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../config'));
-        $loaderXml->load('templating_php.xml');
+        $loaderXml = new Loader\PhpFileLoader($container, new FileLocator(__DIR__.'/../config'));
+        $loaderXml->load('templating_php.php');
 
         $container->registerForAutoconfiguration(HelperInterface::class)
             ->addTag(TemplatingPass::TEMPLATING_HELPER_TAG);
